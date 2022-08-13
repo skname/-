@@ -21,7 +21,7 @@
 - max-age: 段时间
 - SameSite: 控制cookie 在跨域中是携带
   - strict: 严格禁止第三方访问cookie
-  - Lax: 允许get, a, 访问cookie
+  - Lax: 允许get, a, 访问cookie 
 
 ### 5. Cache-Control不发送请求
 - no-store: 每次请求都必须向服务器请求,不允许使用缓存

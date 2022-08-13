@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+
+
+        const PENDING = 'pending';
+        const FULFILLED = 'fulfilled';
+        const REJECTED = 'rejected';
+        class MyPromise {
+            constructor(excutor) {
+                this.state = PENDING
+                this.value = null
+                this.err = null
+                this.onFulfilledCallback = null
+                this.onRejectedCallback = null
+                excutor(this.Resolve, this.Reject)
+            }
+            Resolve = val => {
+                if (this.state == PENDING) {
+                    this.state = FULFILLED
+                    this.value = val
+                    this.onFulfilledCallback && this.onFulfilledCallback(this.value)
+                }
+            }
+            Reject = err => {
+                if (this.state == PENDING) {
+                    this.state = REJECTED
+                    this.value = err
+                    this.onRejectedCallback && this.onFulfilledCallback(this.err)
+                }
+            }
+            then = (onFulfilled, onRejected) => {
+                if (this.state == FULFILLED) {
+                    const res = onFulfilled(this.value)
+                    return MyPromise.resolve(res)
+                }
+                if (this.state == REJECTED) {
+                    const err = onRejected(this.err)
+                    return MyPromise.reject(err)
+                }
+                if (this.state == PENDING) {
+                    this.onFulfilledCallback = onFulfilled
+                    this.onRejectedCallback = onRejected
+                }
+
+            }
+            static resolve(val) {
+                return new MyPromise((res, rej) => {
+                    res(val)
+                })
+            }
+            static reject(err) {
+                return new MyPromise((res, rej) => {
+                    rej(val)
+                })
+            }
+
+            static race(promiseList) {
+                return new MyPromise((res, rej) => {
+                    const len = promiseList.length
+                    for (let i = 0; i < len; i++) {
+                        promiseList[i].then(res, rej)
+                    }
+                })
+            }
+
+            static all(promiseList) {
+                return new MyPromise((res, rej) => {
+                    const len = promiseList.length, result = []
+                    for (let i = 0; i < len; i++) {
+                        promiseList[i].then(value => {
+                            result.push(value)
+                            if (len == result.length) res(result)
+                        }, err => {
+                            rej(err)
+                        })
+                    }
+
+                })
+            }
+
+            static allSettled(promiseList) {
+                return new MyPromise((res, rej) => {
+                    const len = promiseList.length
+                    const result = []
+                    for (let i = 0; i < len; i++) {
+                        promiseList[i].then(value => {
+                            result.push({ state: 'fulfilled', value })
+                        }, err => {
+                            result.push({ state: 'rejected', value: err })
+                        })
+                    }
+                    if (len == result.length) {
+                        res(result)
+                    }
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>

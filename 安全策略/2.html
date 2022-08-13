@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>2222</h2>
+    <script>
+        const a = window.opener
+
+        const script = `
+        const btn = document.createElement('button')
+        btn.innerText = '哈哈'
+        document.body.append(btn)
+        `
+        
+        a.postMessage(script,'http://localhost:3001')
+    </script>
+</body>
+
+</html>

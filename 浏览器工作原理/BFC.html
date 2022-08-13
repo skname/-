@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .father {
+        display: flex;
+        z-index: 33;
+        background-color: aqua;
+    }
+
+    .child {
+        float: left;
+        z-index: 80;
+        background-color: blue;
+        height: 200px;
+        width: 200px;
+    }
+</style>
+
+<body>
+    <div style="display: flex;z-index: 1; background-color: red; width:100px ;height:100px; margin-bottom: 20px;"></div>
+    <div class="father">
+        <div class="child"></div>
+    </div>
+</body>
+<script>
+
+
+
+
+</script>
+
+</html>

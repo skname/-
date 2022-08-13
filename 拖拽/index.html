@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box {
+        border: 1px red solid;
+        height: 300px;
+        width: 300px;
+    }
+
+    .box:hover {
+        box-shadow: 0 0 2px 2px rebeccapurple;
+    }
+
+    .content {
+        width: 100px;
+        height: 100px;
+        background-color: aqua;
+    }
+</style>
+
+<body>
+    <div class="box" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+    </div>
+    <div class="content" draggable="true" ondragstart="handleDrag(event)"></div>
+</body>
+<script>
+    const data = {
+        type: 'button',
+        width: 200,
+        click: '',
+    }
+    function handleDrag(event) {
+        // console.log(event)
+        event.dataTransfer.setData('type', JSON.stringify(data))
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault()
+    }
+    function handleDrop(ev) {
+        ev.preventDefault();
+        let data = ev.dataTransfer.getData("type");
+        const value = JSON.parse(data)
+        const element = document.createElement(value.type)
+        element.innerText = '按钮'
+        ev.target.appendChild(element)
+        // ev.target.appendChild(document.getElementById(data));
+    }
+</script>
+
+</html>
